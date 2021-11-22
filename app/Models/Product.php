@@ -4,14 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class UserData extends Model
+class Product extends Model
 {
     use HasFactory;
-    protected $fillable = ['name', 'description', 'image','user_id',];
-    protected $table = 'user_data';
 
-    public function getUserData()
+    protected $fillable = ['name', 'description', 'image','user_id',];
+
+    protected $table = 'product';
+
+    public function getProduct(): BelongsToMany
+    {
+        return $this->belongsToMany(Tag::class,'user_tag_rels');
+    }
+
+    public function roles()
     {
         return $this->belongsToMany(Tag::class,'user_tag_rels');
     }
