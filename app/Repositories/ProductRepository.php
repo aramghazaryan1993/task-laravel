@@ -9,16 +9,18 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Product;
 use App\Http\Resources\Product as ProductResource;
 use Illuminate\Support\Facades\Storage;
-
+use Illuminate\Support\Collection;
 class ProductRepository extends BaseController implements ProductInterface
 {
     public function add($name,$description,$tagId,$img)
     {
+
         $image = time().'_'.$img->getClientOriginalName();
         Storage::disk('public')->put($image, file_get_contents($img->getRealPath()));
 
         $product = Product::create(['name'=>$name,'description'=>$description,'image'=>$image,'user_id'=>Auth::user()->id]);
-        $this->addUserTegRel($product->id,$tagId);
+
+         $product->addTeg()->sync($tagId);
              return $product;
     }
 
@@ -38,7 +40,8 @@ class ProductRepository extends BaseController implements ProductInterface
         $editProduct->image = $image;
         $editProduct->save();
 
-        $this->addUserTegRel($id,$tagId);
+        $editProduct->addTeg()->sync($tagId);
+
             return $editProduct;
     }
 
@@ -55,22 +58,7 @@ class ProductRepository extends BaseController implements ProductInterface
     public function getProduct()
     {
         $Product = Product::with('getProduct')->get()->toArray();
-        return $Product;
-
-
+        return   $Product;
     }
 
-    public function addUserTegRel($productId,$tagId)
-    {
-        foreach ($tagId as $key) {
-            $data = UserTagRel::where('tag_id', $key)->where('product_id', $productId)->first();
-
-            if (!isset($data->id)) {
-                $add = new UserTagRel;
-                $add->tag_id = $key;
-                $add->product_id = $productId;
-                $add->save();
-            }
-        }
-    }
 }

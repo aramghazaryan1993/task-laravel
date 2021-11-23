@@ -35,9 +35,10 @@ class Product extends ResourceCollection
 
     public function toArray($request)
     {
+
         return $this->collection->map(function ($item) {
 
-            $a  =  (object) $item;
+            $a  =   (object) $item;
             return [
                  'id' => $a->id,
                  'name' => $a->name,
@@ -49,19 +50,19 @@ class Product extends ResourceCollection
                 'get_product' => array_map(function ($product)
                 {
                     $b  =   (object) $product;
+
                      return [
                          'id'=>$b->id,
                          'tag_name'=>$b->tag_name,
                          'created_at'=>$b->created_at,
                          'updated_at'=>$b->updated_at,
 
-
                         'pivot' => array_map(function ($pivot)
                         {
                             $c =   (object) $pivot;
 
                             return [
-                                $c->scalar,
+                               $k = $c->scalar,
 
 //                                'product_id' => array_map(function ($product_id)
 //                                {
@@ -70,7 +71,7 @@ class Product extends ResourceCollection
 ////                                        'id'=>$d
 ////                                    ];
 //
-//                                },  $c->product_id)
+//                                },   $k['product_id'])
 
                             ];
                         },  $b->pivot)

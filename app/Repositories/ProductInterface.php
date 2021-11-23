@@ -11,6 +11,4 @@ interface ProductInterface
     public function deleteProduct($id);
 
     public function getProduct();
-
-    public function addUserTegRel($productId,$tagId);
 }
