@@ -14,9 +14,15 @@ use phpDocumentor\Reflection\Types\Integer;
 
 class ProductController extends  BaseController
 {
-
+    /**
+     * @var ProductRepository
+     */
     private ProductRepository $productRepository;
 
+    /**
+     * ProductController constructor.
+     * @param ProductRepository $productRepository
+     */
     public function __construct(ProductRepository $productRepository)
     {
         $this->productRepository = $productRepository;
@@ -28,7 +34,6 @@ class ProductController extends  BaseController
      *
      * @return \Illuminate\Http\Response
      */
-
     public function add(ProductRequest $request)
     {
          $data = $this->productRepository->add($request->name,$request->description,$request->tag_id,$request->image);
@@ -41,11 +46,10 @@ class ProductController extends  BaseController
      *
      * @return \Illuminate\Http\Response
      */
-
     public function update(ProductRequest $request,int $id)
     {
         $data = $this->productRepository->update($request->name,$request->description,$request->tag_id,$request->image,$id);
-          return $this->response(new ProductResource($data))->setStatusCode(Response::HTTP_OK );
+               return $this->response(new ProductResource($data))->setStatusCode(Response::HTTP_OK );
     }
 
     /**
@@ -53,7 +57,6 @@ class ProductController extends  BaseController
      * Method Get
      *
      */
-
     public function deleteTeg(int $tagId, int $productId)
     {
         $this->productRepository->deleteTeg($tagId,$productId);
@@ -65,7 +68,6 @@ class ProductController extends  BaseController
      * Method Get
      *
      */
-
     public function deleteProduct(int $id)
     {
         $this->productRepository->deleteProduct($id);
@@ -77,11 +79,10 @@ class ProductController extends  BaseController
      * Method Get
      *
      */
-
-    public function getProduct()
+    public function getAllProduct()
     {
-        $product = $this->productRepository->getProduct();
-           return $this->response(new ProductResource($product))->setStatusCode(Response::HTTP_OK );
+        $product = $this->productRepository->getAllProduct();
+           return $this->response($product)->setStatusCode(Response::HTTP_OK );
     }
 
 }

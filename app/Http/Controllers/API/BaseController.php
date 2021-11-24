@@ -16,8 +16,8 @@ class BaseController extends Controller
     {
         $response = [
             'status_code' => $statusCode,
-            'data'    => $result,
-            'message' => $message,
+            'data'        => $result,
+            'message'     => $message,
         ];
 
         return response()->json($response, 200);
@@ -29,6 +29,7 @@ class BaseController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
+
     public function sendError($error, $errorMessages = [], $code = 404)
     {
         $response = [

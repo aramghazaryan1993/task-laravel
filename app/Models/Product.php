@@ -10,20 +10,32 @@ class Product extends Model
 {
     use HasFactory;
 
+    /**
+     * @var array
+     */
     protected $fillable = ['name', 'description', 'image','user_id',];
 
-    protected $table = 'product';
+    /**
+     * @var string
+     */
+    protected $table = 'products';
 
-    public function getProduct(): BelongsToMany
+    /**
+     * @return BelongsToMany
+     */
+    public function getAllTagsId(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class,'user_tag_rels');
+        return $this->belongsToMany(Tag::class,'user_tag_rels')
+                    ->select(['tags.id as tag_id']);
     }
 
+    /**
+     * @return BelongsToMany
+     */
     public function addTeg()
     {
         return $this->belongsToMany(Tag::class,'user_tag_rels')
-                ->using(UserTagRel::class)
-                ->withTimestamps()
-                ->withPivot('status');
+                    ->using(UserTagRel::class)
+                    ->withTimestamps();
     }
 }

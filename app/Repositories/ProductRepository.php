@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
 class ProductRepository extends BaseController implements ProductInterface
 {
+    /**
+     * @param $name
+     * @param $description
+     * @param $tagId
+     * @param $img
+     * @return mixed
+     */
     public function add($name,$description,$tagId,$img)
     {
 
@@ -24,6 +31,14 @@ class ProductRepository extends BaseController implements ProductInterface
              return $product;
     }
 
+    /**
+     * @param $name
+     * @param $description
+     * @param $tagId
+     * @param $img
+     * @param $id
+     * @return mixed
+     */
     public function update($name,$description,$tagId,$img, $id)
     {
         $editProduct = Product::where('user_id', Auth::id())->where('id', $id)->first();
@@ -45,20 +60,32 @@ class ProductRepository extends BaseController implements ProductInterface
             return $editProduct;
     }
 
+    /**
+     * @param $tagId
+     * @param $productId
+     * @return mixed
+     */
     public function deleteTeg($tagId, $productId)
     {
         return UserTagRel::where('tag_id', $tagId)->where('product_id', $productId)->delete();
     }
 
+    /**
+     * @param $id
+     * @return mixed
+     */
     public function deleteProduct($id)
     {
         return Product::where('id',$id)->delete();
     }
 
-    public function getProduct()
+    /**
+     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     */
+    public function getAllProduct()
     {
-        $Product = Product::with('getProduct')->get()->toArray();
-        return   $Product;
+        $Product = Product::with('getAllTagsId')->get();
+           return  ProductResource::collection($Product);
     }
 
 }

@@ -33,8 +33,7 @@ class AuthController extends BaseController
     public function register(UserRequest $request)
     {
        $user = $this->authRepository->register($request->name,$request->email,$request->password);
-      //  return $this->sendResponse($this->authRepository->register($request->name,$request->email,$request->password), 'User register successfully.',200);
-        return $this->response([$user])->setStatusCode(Response::HTTP_OK );
+         return $this->response([$user])->setStatusCode(Response::HTTP_OK );
     }
 
     /**
@@ -42,12 +41,14 @@ class AuthController extends BaseController
      *
      * @return \Illuminate\Http\Response
      */
+
     public function login(Request $request)
     {
         if(Auth::attempt(['email' =>$request->email, 'password' =>$request->password ])){
+
             $user = Auth::user();
             $success['token'] =  $user->createToken('MyApp')->plainTextToken;
-            $success['name'] =  $user->name;
+            $success['name']  =  $user->name;
             $success['email'] =  $user->email;
 
             return $this->response($success)
@@ -56,7 +57,6 @@ class AuthController extends BaseController
         else{
             return $this->response(['error'=>'Unauthorised'])
                    ->setStatusCode(Response::HTTP_BAD_REQUEST );
-           // return $this->sendError('Unauthorised.', ['error'=>'Unauthorised']);
         }
     }
 

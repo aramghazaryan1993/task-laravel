@@ -13,6 +13,6 @@ Route::middleware('auth:sanctum')->group( function () {
     Route::post('update/{id}', [\App\Http\Controllers\API\ProductController::class, 'update']);
     Route::delete('delete-teg/{teg_id}/{product_id}', [\App\Http\Controllers\API\ProductController::class, 'deleteTeg']);
     Route::delete('delete-product/{id}', [\App\Http\Controllers\API\ProductController::class, 'deleteProduct']);
-    Route::get('get-product', [\App\Http\Controllers\API\ProductController::class, 'getProduct']);
+    Route::get('get-all-product', [\App\Http\Controllers\API\ProductController::class, 'getAllProduct']);
 
 });
