@@ -6,8 +6,7 @@ use Illuminate\Support\Collection;
 use App\Http\Controllers\API\BaseController;
 use App\Models\Tag;
 
-
-class TagRepository extends BaseController implements TagInterface
+class TagRepository  implements TagInterface
 {
     /**
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
