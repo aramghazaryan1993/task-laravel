@@ -84,8 +84,8 @@ class ProductRepository extends BaseController implements ProductInterface
      */
     public function getAllProduct()
     {
-        $Product = Product::with('getAllTagsId')->get();
-           return  ProductResource::collection($Product);
+        $Products = Product::with('getAllTagsId')->get();
+           return  ProductResource::collection($Products);
     }
 
 }
