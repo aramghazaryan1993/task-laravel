@@ -10,7 +10,7 @@ use App\Models\Product;
 use App\Http\Resources\Product as ProductResource;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Collection;
-class ProductRepository extends BaseController implements ProductInterface
+class ProductRepository  implements ProductInterface
 {
     /**
      * @param $name
