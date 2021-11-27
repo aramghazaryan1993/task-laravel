@@ -71,7 +71,7 @@ class ProductController extends  BaseController
     public function deleteProduct(int $id)
     {
         $this->productRepository->deleteProduct($id);
-            return $this->response(['Delete product successfully.'])->setStatusCode(Response::HTTP_OK );
+          return $this->response(['Delete product successfully.'])->setStatusCode(Response::HTTP_OK );
     }
 
     /**
@@ -82,7 +82,7 @@ class ProductController extends  BaseController
     public function getAllProduct()
     {
         $product = $this->productRepository->getAllProduct();
-           return $this->response($product)->setStatusCode(Response::HTTP_OK );
+           return $this->response(ProductResource::collection($product))->setStatusCode(Response::HTTP_OK );
     }
 
 }

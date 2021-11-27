@@ -34,6 +34,6 @@ class TagController extends BaseController
     public function getAllTag()
     {
         $tags = $this->tagRepository->getAllTag();
-           return $this->response($tags)->setStatusCode(Response::HTTP_OK );
+           return $this->response(TagResource::collection($tags))->setStatusCode(Response::HTTP_OK );
     }
 }

@@ -84,8 +84,8 @@ class ProductRepository  implements ProductInterface
      */
     public function getAllProduct()
     {
-        $Products = Product::with('getAllTagsId')->get();
-           return  ProductResource::collection($Products);
+//       return Product::with('getAllTagsId')->get();
+        return Product::all();
     }
 
 }

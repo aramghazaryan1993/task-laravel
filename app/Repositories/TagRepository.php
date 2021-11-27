@@ -13,7 +13,6 @@ class TagRepository  implements TagInterface
      */
     public function getAllTag()
     {
-        $tags  = Tag::all();
-          return  TagResource::collection($tags);
+        return Tag::all();
     }
 }

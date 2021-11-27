@@ -25,8 +25,8 @@ class Product extends Model
      */
     public function getAllTagsId(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class,'user_tag_rels')
-                    ->select(['tags.id as tag_id']);
+        return $this->belongsToMany(Tag::class,'user_tag_rels');
+                    //->select(['tags.id as tag_id']);
     }
 
     /**
