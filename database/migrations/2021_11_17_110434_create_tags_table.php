@@ -9,6 +9,10 @@ class CreateTagsTable extends Migration
     /**
      * Run the migrations.
      *
+     *
+     *
+     *
+     * test
      * @return void
      */
     public function up()
