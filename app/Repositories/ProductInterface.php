@@ -39,4 +39,9 @@ interface ProductInterface
      */
     public function getAllProduct();
 
+    /**
+     * @return mixed
+     */
+    public function getAllTag();
+
 }
