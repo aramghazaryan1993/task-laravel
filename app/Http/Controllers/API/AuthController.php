@@ -33,7 +33,7 @@ class AuthController extends BaseController
     public function register(UserRequest $request)
     {
        $user = $this->authRepository->register($request->name,$request->email,$request->password);
-         return $this->response([$user])->setStatusCode(Response::HTTP_OK );
+         return $this->response([$user])->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
