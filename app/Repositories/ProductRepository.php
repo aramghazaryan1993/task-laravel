@@ -1,7 +1,9 @@
 <?php
 namespace App\Repositories;
 use App\Http\Controllers\API\BaseController;
+use App\Models\Tag;
 use App\Models\UserTagRel;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
@@ -21,13 +23,12 @@ class ProductRepository  implements ProductInterface
      */
     public function add($name,$description,$tagId,$img)
     {
-
         $image = time().'_'.$img->getClientOriginalName();
         Storage::disk('public')->put($image, file_get_contents($img->getRealPath()));
 
         $product = Product::create(['name'=>$name,'description'=>$description,'image'=>$image,'user_id'=>Auth::user()->id]);
 
-         $product->addTeg()->sync($tagId);
+         $product->tag()->sync($tagId);
              return $product;
     }
 
@@ -55,7 +56,7 @@ class ProductRepository  implements ProductInterface
         $editProduct->image = $image;
         $editProduct->save();
 
-        $editProduct->addTeg()->sync($tagId);
+        $editProduct->tag()->sync($tagId);
 
             return $editProduct;
     }
@@ -67,7 +68,9 @@ class ProductRepository  implements ProductInterface
      */
     public function deleteTeg($tagId, $productId)
     {
-        return UserTagRel::where('tag_id', $tagId)->where('product_id', $productId)->delete();
+     $deleteTag = Product::find($productId);
+
+        return $deleteTag->tag()->detach($tagId);
     }
 
     /**
@@ -84,8 +87,15 @@ class ProductRepository  implements ProductInterface
      */
     public function getAllProduct()
     {
-//       return Product::with('getAllTagsId')->get();
         return Product::all();
+    }
+
+    /**
+     * @return Tag[]|\Illuminate\Database\Eloquent\Collection|mixed
+     */
+    public function getAllTag()
+    {
+        return Tag::all();
     }
 
 }
