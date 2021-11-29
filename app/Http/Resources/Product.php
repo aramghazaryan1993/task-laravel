@@ -21,7 +21,7 @@ class Product extends JsonResource
             'description' => $this->resource->description,
             'image'       => empty($this->resource->image) ? null : Storage::url($this->resource->image),
             'user_id'     => $this->resource->user_id,
-            'tag_ids'     =>  $this->resource->getAllTagsId()->get()->pluck('id'),
+            'tag_ids'     => $this->resource->getAllTagsId()->get()->pluck('id'),
         ];
     }
 
