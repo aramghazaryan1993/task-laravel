@@ -2,20 +2,24 @@
 namespace App\Repositories;
 use App\Http\Controllers\API\BaseController;
 use App\Models\User;
-use Illuminate\Http\Response;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Requests\UserRequest;
 
-class UserRepository extends BaseController implements UserInterface
+class UserRepository extends BaseController
 {
     /**
-     * @param $name
-     * @param $email
-     * @param $password
-     * @return mixed
+     * Class UserRepository
+     * @package App\Repositories
+     * @param string $name
+     * @param string $email
+     * @param string $password
      */
-    // Creat Antty user
-    public function register($name,$email,$password)
+
+    /**
+     * @param string $name
+     * @param string $email
+     * @param string $password
+     * @return User
+     */
+    public function register(string $name, string $email, string $password)
     {
         $user             = User::create(['name'=>$name,'email'=>$email,'password'=>bcrypt($password)]);
         $success['token'] =  $user->createToken('MyApp')->plainTextToken;
@@ -24,8 +28,4 @@ class UserRepository extends BaseController implements UserInterface
 
               return $success;
     }
-
-
-
-
 }
