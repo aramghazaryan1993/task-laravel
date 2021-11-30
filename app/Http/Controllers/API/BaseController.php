@@ -8,48 +8,16 @@ use Illuminate\Http\Request;
 class BaseController extends Controller
 {
     /**
-     * success response method.
-     *
-     * @return \Illuminate\Http\Response
+     * Class BaseController
+     * @package App\Http\Controllers\API
      */
-    public function sendResponse($result, $message,$statusCode)
-    {
-        $response = [
-            'status_code' => $statusCode,
-            'data'        => $result,
-            'message'     => $message,
-        ];
-
-        return response()->json($response, 200);
-    }
-
 
     /**
-     * return error response.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     * Function for send response from controller functions
      */
-
-    public function sendError($error, $errorMessages = [], $code = 404)
-    {
-        $response = [
-            'success' => false,
-            'message' => $error,
-        ];
-
-
-        if(!empty($errorMessages)){
-            $response['data'] = $errorMessages;
-        }
-
-
-        return response()->json($response, $code);
-    }
-
     public function response()
     {
         return response(...func_get_args());
     }
-
-
 }
