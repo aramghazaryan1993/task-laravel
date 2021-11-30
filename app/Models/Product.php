@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Product extends Model
 {
+    /**
+     * Class Product
+     * @package App\Models
+     */
+
     use HasFactory;
 
     /**
@@ -22,6 +27,7 @@ class Product extends Model
 
     /**
      * @return BelongsToMany
+     * @Get all tag id
      */
     public function getAllTagsId(): BelongsToMany
     {
@@ -30,15 +36,12 @@ class Product extends Model
 
     /**
      * @return BelongsToMany
+     * @detach Product
+     * @detach Tag id and product id from user_tag_rels table
      */
-    public function tag()
+    public function tag(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class,'user_tag_rels')
                      ->withTimestamps();
     }
-
-
-
-
-
 }
