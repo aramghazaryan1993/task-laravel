@@ -7,6 +7,11 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
+    /**
+     * Class Tag
+     * @package App\Models
+     */
+
     use HasFactory;
 
     /**
@@ -18,5 +23,4 @@ class Tag extends Model
      * @var array
      */
     protected $hidden = ['pivot'];
-
 }
