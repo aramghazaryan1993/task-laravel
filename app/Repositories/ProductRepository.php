@@ -1,27 +1,32 @@
 <?php
 namespace App\Repositories;
-use App\Http\Controllers\API\BaseController;
 use App\Models\Tag;
-use App\Models\UserTagRel;
-use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\DB;
 use App\Models\Product;
-use App\Http\Resources\Product as ProductResource;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Collection;
-class ProductRepository  implements ProductInterface
+
+class ProductRepository
 {
     /**
-     * @param $name
-     * @param $description
-     * @param $tagId
-     * @param $img
-     * @return mixed
+     * Class ProductRepository
+     * @package App\Repositories
+     * @param string $name
+     * @param string $description
+     * @param int $tagId
+     * @param string $img
+     * @param int $productId
+     * @param int $id
+     * @return Product
      */
-    public function add($name,$description,$tagId,$img)
+
+    /**
+     * @param string $name
+     * @param string $description
+     * @param int $tagId
+     * @param string $img
+     * @return Product
+     */
+    public function add(string $name, string $description, array $tagId, $img): Product
     {
         $image = time().'_'.$img->getClientOriginalName();
         Storage::disk('public')->put($image, file_get_contents($img->getRealPath()));
@@ -33,14 +38,14 @@ class ProductRepository  implements ProductInterface
     }
 
     /**
-     * @param $name
-     * @param $description
-     * @param $tagId
-     * @param $img
-     * @param $id
-     * @return mixed
+     * @param string $name
+     * @param string $description
+     * @param int $tagId
+     * @param string $img
+     * @param int $id
+     * @return Product
      */
-    public function update($name,$description,$tagId,$img, $id)
+    public function update(string $name, string $description,  array $tagId, $img, int $id): Product
     {
         $editProduct = Product::where('user_id', Auth::id())->where('id', $id)->first();
 
@@ -62,11 +67,11 @@ class ProductRepository  implements ProductInterface
     }
 
     /**
-     * @param $tagId
-     * @param $productId
+     * @param int $tagId
+     * @param int $productId
      * @return mixed
      */
-    public function deleteTeg($tagId, $productId)
+    public function deleteTag(int $tagId, int $productId)
     {
      $deleteTag = Product::find($productId);
 
@@ -74,16 +79,17 @@ class ProductRepository  implements ProductInterface
     }
 
     /**
-     * @param $id
+     * @param int $id
      * @return mixed
      */
-    public function deleteProduct($id)
+    public function deleteProduct(int $id)
     {
         return Product::where('id',$id)->delete();
     }
 
+
     /**
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return Product
      */
     public function getAllProduct()
     {
@@ -91,11 +97,10 @@ class ProductRepository  implements ProductInterface
     }
 
     /**
-     * @return Tag[]|\Illuminate\Database\Eloquent\Collection|mixed
+     * @return Product
      */
     public function getAllTag()
     {
         return Tag::all();
     }
-
 }
