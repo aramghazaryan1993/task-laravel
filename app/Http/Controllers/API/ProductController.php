@@ -6,16 +6,22 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\ProductRequest;
 use App\Http\Resources\Product as ProductResource;
 use App\Http\Resources\Massage as MassageResource;
-use App\Http\Resources\Tag;
+use App\Http\Resources\Tag as TagResource;
 use App\Repositories\ProductRepository;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Resources\Json\ResourceResponse;
 use Illuminate\Http\Response;
-use phpDocumentor\Reflection\Types\Integer;
 
 class ProductController extends  BaseController
 {
+    /**
+     * Class ProductController
+     * @package App\Http\Controllers\API
+     * @param ProductRequest $request
+     * @param int $id
+     * @param int $tagId
+     * @param int $productId
+     */
+
     /**
      * @var ProductRepository
      */
@@ -32,13 +38,7 @@ class ProductController extends  BaseController
 
     /**
      * @param ProductRequest $request
-     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|object
-     *      * Add  product for function
-     * Method Post
-     * string min:2,max:15 name
-     * string min:5,max:500 description
-     * array tag_id
-     * jpeg,jpg,png,gif,max:10000 image
+     * @return ProductResource
      */
     public function add(ProductRequest $request)
     {
@@ -46,16 +46,12 @@ class ProductController extends  BaseController
                 return $this->response(new ProductResource($data))->setStatusCode(Response::HTTP_CREATED);
     }
 
+
     /**
      * @param ProductRequest $request
      * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|object
-     * Update product for function
-     * Method Post
-     * string min:2,max:15 name
-     * string min:5,max:500 description
-     * array tag_id
-     * jpeg,jpg,png,gif,max:10000 image
+     * POST:Function for update product and add tags
      */
     public function update(ProductRequest $request,int $id)
     {
@@ -67,33 +63,28 @@ class ProductController extends  BaseController
      * @param int $tagId
      * @param int $productId
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|object
-     * Delete product tag for function
-     * Method Get
-     * int $tagId
-     * int $productId
+     * DELETE:Function for delete tag
      */
-    public function deleteTeg(int $tagId, int $productId)
+    public function deleteTag(int $tagId, int $productId)
     {
-           $this->productRepository->deleteTeg($tagId,$productId);
-            return  $this->response(new MassageResource(['massage'=>'Delete Tag  successfully.']))->setStatusCode(Response::HTTP_GONE );
+           $this->productRepository->deleteTag($tagId,$productId);
+            return  $this->response(new MassageResource('Delete Tag  successfully.'))->setStatusCode(Response::HTTP_GONE );
     }
 
     /**
      * @param int $id
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|object
-     * Delete product for function
-     * Method Get
+     * DELETE:Function for delete product
      */
     public function deleteProduct(int $id)
     {
         $this->productRepository->deleteProduct($id);
-          return $this->response(new MassageResource(['massage'=>'Delete product successfully.']))->setStatusCode(Response::HTTP_GONE);
+          return $this->response(new MassageResource('Delete product successfully.'))->setStatusCode(Response::HTTP_GONE);
     }
 
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|object
-     * Get product for function
-     * Method Get
+     * GET:Function for get all product
      */
     public function getAllProduct()
     {
@@ -103,15 +94,11 @@ class ProductController extends  BaseController
 
     /**
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|object
-     * Get all tag from function
-     * Method Get
+     * GET:Function for get all tag
      */
     public function getAllTag()
     {
         $tags = $this->productRepository->getAllTag();
-           return $this->response(Tag::collection($tags))->setStatusCode(Response::HTTP_OK );
+           return $this->response(TagResource::collection($tags))->setStatusCode(Response::HTTP_OK );
     }
-
-
-
 }
