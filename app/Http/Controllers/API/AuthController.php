@@ -2,46 +2,51 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRequest;
-use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
-use App\Models\User;
-use App\Http\Controllers\API\BaseController;
+use App\Http\Resources\User as UserResource;
+use App\Http\Resources\Massage as MassageResource;
 
 class AuthController extends BaseController
 {
     /**
-     * @var UserRepository
+     * Class AuthController
+     * @package App\Http\Controllers\API
      */
 
+    /**
+     * @var UserRepository
+     */
     private UserRepository $authRepository;
 
+    /**
+     * AuthController constructor.
+     * @param UserRepository $authRepository
+     */
     public function __construct(UserRepository $authRepository)
     {
         $this->authRepository = $authRepository;
     }
 
     /**
-     * Register api
-     *
-     * @return \Illuminate\Http\Response
+     * @param UserRequest $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|object
+     * POST:Function for creationg user
      */
     public function register(UserRequest $request)
     {
        $user = $this->authRepository->register($request->name,$request->email,$request->password);
-         return $this->response([$user])->setStatusCode(Response::HTTP_CREATED);
+         return $this->response(new UserResource($user))->setStatusCode(Response::HTTP_CREATED);
     }
 
     /**
-     * Login api
-     *
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|Response|object
+     * POST:Function for login user
      */
-
     public function login(Request $request)
     {
         if(Auth::attempt(['email' =>$request->email, 'password' =>$request->password ])){
@@ -51,14 +56,13 @@ class AuthController extends BaseController
             $success['name']  =  $user->name;
             $success['email'] =  $user->email;
 
-            return $this->response($success)
-                   ->setStatusCode(Response::HTTP_OK);
+            return $this->response(new UserResource($success))
+                        ->setStatusCode(Response::HTTP_OK);
         }
         else{
-            return $this->response(['error'=>'Unauthorised'])
-                   ->setStatusCode(Response::HTTP_BAD_REQUEST );
+            return $this->response(MassageResource('Unauthorised'))
+                        ->setStatusCode(Response::HTTP_BAD_REQUEST );
         }
     }
-
 
 }
