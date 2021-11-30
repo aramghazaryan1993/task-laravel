@@ -3,12 +3,16 @@
 namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
+
 class Product extends JsonResource
 {
+    /**
+     * Class Product
+     * @package App\Http\Resources
+     */
 
     /**
      * Transform the resource into an array.
-     *
      * @param \Illuminate\Http\Request $request
      * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
@@ -24,7 +28,5 @@ class Product extends JsonResource
             'tag_ids'     => $this->resource->getAllTagsId()->get()->pluck('id'),
         ];
     }
-
-
 }
 
