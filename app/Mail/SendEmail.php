@@ -7,17 +7,16 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
+/**
+ * Class SendEmail
+ * @package App\Mail
+ */
 class SendEmail extends Mailable
 {
-    /**
-     * Class SendEmail
-     * @package App\Mail
-     */
-
     use Queueable, SerializesModels;
 
-    public string $name;
-    public string $description;
+    private string $name;
+    private string $description;
 
     /**
      * SendEmail constructor.
@@ -35,8 +34,8 @@ class SendEmail extends Mailable
      */
     public function build()
     {
-        return $this->from('aramghazaryan2@gmail.com', 'Product')
+        return $this->from(config('mail.reply_to'))
                     ->subject('Product')
-                    ->view('email.send-email', ['name' => $this->name,'description' => $this->description]);
+                    ->view('email.send-email', ['name' => $this->name, 'description' => $this->description]);
     }
 }
