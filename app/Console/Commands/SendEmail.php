@@ -19,7 +19,7 @@ class SendEmail extends Command
      *
      * @var string
      */
-    protected $signature = 'send:email {email}';
+    protected $signature = 'send:email {email*}';
 
     /**
      * The console command description.
@@ -29,24 +29,11 @@ class SendEmail extends Command
     protected $description = 'Send email my product';
 
 
-    /**
-     * SendEmail constructor.
-     */
-    public function __construct()
-    {
-        parent::__construct();
-    }
-
-
     public function handle()
     {
         $product = Product::all()->first();
 
-        $data['email']        = $this->argument('email');
-        $data['name']         = $product->name;
-        $data['description']  = $product->description;
-
-        Mail::to($data['email'])->send(new SendEmailMailable($data));
+        Mail::to($this->argument('email'))->send(new SendEmailMailable($product->name,$product->description));
 
         return $this->info('Success');
     }
