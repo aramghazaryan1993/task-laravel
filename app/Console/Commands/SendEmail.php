@@ -7,13 +7,12 @@ use Illuminate\Console\Command;
 use App\Mail\SendEmail as SendEmailMailable;
 use Illuminate\Support\Facades\Mail;
 
+/**
+ * Class SendEmail
+ * @package App\Console\Commands
+ */
 class SendEmail extends Command
 {
-    /**
-     * Class SendEmail
-     * @package App\Console\Commands
-     */
-
     /**
      * The name and signature of the console command.
      *
@@ -33,8 +32,12 @@ class SendEmail extends Command
     {
         $product = Product::all()->first();
 
-        Mail::to($this->argument('email'))->send(new SendEmailMailable($product->name,$product->description));
+       if($product !== null){
+           Mail::to($this->argument('email'))->send(new SendEmailMailable($product->name, $product->description));
+                    return $this->info('Success');
+       }else{
+           return $this->info('Product does not exist');
+       }
 
-        return $this->info('Success');
     }
 }
