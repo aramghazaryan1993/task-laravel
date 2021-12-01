@@ -34,7 +34,7 @@ class SendEmail extends Mailable
      */
     public function build()
     {
-        return $this->from(config('mail.reply_to'))
+        return $this->from(config('mail.reply_to.address'),config('mail.reply_to.name'))
                     ->subject('Product')
                     ->view('email.send-email', ['name' => $this->name, 'description' => $this->description]);
     }
