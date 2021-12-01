@@ -32,9 +32,9 @@ class SendEmail extends Command
     {
         $product = Product::all()->first();
 
-       if($product !== null){
+       if(!is_null($product)){
            Mail::to($this->argument('email'))->send(new SendEmailMailable($product->name, $product->description));
-                    return $this->info('Success');
+           return $this->info('Success');
        }else{
            return $this->info('Product does not exist');
        }
