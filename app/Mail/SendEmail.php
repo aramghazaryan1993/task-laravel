@@ -15,17 +15,20 @@ class SendEmail extends Mailable
      */
 
     use Queueable, SerializesModels;
-    public $emailData;
+
+    public string $name;
+    public string $description;
 
     /**
      * SendEmail constructor.
-     * @param array $data
+     * @param string $name
+     * @param string $description
      */
-    public function __construct(array $data)
+    public function __construct(string $name,string $description)
     {
-        $this->emailData  = $data;
+        $this->name  = $name;
+        $this->description  = $description;
     }
-
 
     /**
      * @return SendEmail
@@ -34,6 +37,6 @@ class SendEmail extends Mailable
     {
         return $this->from('aramghazaryan2@gmail.com', 'Product')
                     ->subject('Product')
-                    ->view('email.send-email', ['mailData' => $this->emailData]);
+                    ->view('email.send-email', ['name' => $this->name,'description' => $this->description]);
     }
 }
