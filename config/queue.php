@@ -45,7 +45,7 @@ return [
         'beanstalkd' => [
             'driver' => 'beanstalkd',
             'host' => 'localhost',
-            'queue' => 'default',
+            'queue' => ['emails'],
             'retry_after' => 90,
             'block_for' => 0,
             'after_commit' => false,
