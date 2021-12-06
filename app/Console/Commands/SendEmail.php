@@ -36,15 +36,15 @@ class SendEmail extends Command
         ];
 
         $rules = [
-            'emails' => new ValidEmail($this->argument('email'))
+            'emails' => new ValidEmail()
         ];
 
         $validator = Validator::make($argument, $rules);
 
-        $product   = Product::all()->first();
-
         if($validator->passes())
         {
+            $product   = Product::all()->first();
+
             if(!is_null($product)){
                 Mail::to($this->argument('email'))->queue((new SendProductInfoToUserByEmail($product->name, $product->description))->onQueue('emails'));
                 return $this->info('Success');
