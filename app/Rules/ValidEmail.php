@@ -5,14 +5,21 @@ namespace App\Rules;
 use Illuminate\Contracts\Validation\Rule;
 use Illuminate\Support\Facades\Validator;
 
+/**
+ * Class ValidEmail
+ * @package App\Rules
+ */
 class ValidEmail implements Rule
 {
     /**
-     * Create a new rule instance.
-     *
+     * @var array
+     */
+    public array $argument;
+
+    /**
+     * ValidEmail constructor.
      * @param $argument
      */
-    public $argument;
     public function __construct($argument)
     {
        $this->argument = $argument;
@@ -28,26 +35,21 @@ class ValidEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-
         $argument = [
-            'emails' => $this->argument
+            'emails' => $value
         ];
 
         $rules = [
-            'emails.*' => ['required','email' ]
+            'emails.*' => ['required','email']
         ];
 
         $validator = Validator::make($argument, $rules);
 
-        if ($validator->fails() === true) {
-//            dd($validator->errors()->all());
-            foreach ($validator->errors()->all() as $error) {
-               echo  $error;
-            }
+        if ($validator->fails()) {
+            return 0;
         }else{
             return 1;
         }
-
     }
 
     /**
@@ -57,6 +59,6 @@ class ValidEmail implements Rule
      */
     public function message()
     {
-       // return 'The validation error message.';
+        return 'Error Email';
     }
 }
