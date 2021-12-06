@@ -3,9 +3,21 @@
 namespace App\Rules;
 
 use Illuminate\Contracts\Validation\Rule;
+use Illuminate\Support\Facades\Validator;
 
 class ValidEmail implements Rule
 {
+    /**
+     * Create a new rule instance.
+     *
+     * @param $argument
+     */
+    public $argument;
+    public function __construct($argument)
+    {
+       $this->argument = $argument;
+    }
+
 
     /**
      * Determine if the validation rule passes.
@@ -16,8 +28,26 @@ class ValidEmail implements Rule
      */
     public function passes($attribute, $value)
     {
-        //this condition checks wheather the username contains any empty spaces or quotes
-        return ( preg_match( '/[\'"\s]/', $value ) )? false : true;
+
+        $argument = [
+            'emails' => $this->argument
+        ];
+
+        $rules = [
+            'emails.*' => ['required','email' ]
+        ];
+
+        $validator = Validator::make($argument, $rules);
+
+        if ($validator->fails() === true) {
+//            dd($validator->errors()->all());
+            foreach ($validator->errors()->all() as $error) {
+               echo  $error;
+            }
+        }else{
+            return 1;
+        }
+
     }
 
     /**
@@ -27,6 +57,6 @@ class ValidEmail implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+       // return 'The validation error message.';
     }
 }
