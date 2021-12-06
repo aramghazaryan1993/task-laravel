@@ -4,7 +4,7 @@ namespace App\Console\Commands;
 
 use App\Models\Product;
 use Illuminate\Console\Command;
-use App\Mail\SendEmail as SendEmailMailable;
+use App\Mail\SendProductInfoToUserByEmail;
 use Illuminate\Support\Facades\Mail;
 use App\Rules\ValidEmail;
 use Illuminate\Support\Facades\Validator;
@@ -28,34 +28,27 @@ class SendEmail extends Command
      */
     protected $description = 'Send email my product';
 
-    /**
-     * @return int|void
-     */
+
     public function handle()
     {
         $argument = [
-            'email' => $this->argument('email')
+            'emails' => $this->argument('email')
         ];
 
         $rules = [
-            'email.*' => ['required','email', new ValidEmail ]
+            'emails.*' => ['required','email', new ValidEmail($this->argument('email')) ]
         ];
 
-        $validator = Validator::make($argument, $rules);
+        $validator = Validator::make($argument, $rules)->passes($argument,$rules);
 
         $product = Product::all()->first();
 
-        if ($validator->fails()) {
-            foreach ($validator->errors()->all() as $error) {
-                $this->error($error);
-            }
-
-            return 1;
-        }
-
         if(!is_null($product)){
-            Mail::to($this->argument('email'))->queue((new SendEmailMailable($product->name, $product->description))->onQueue('emails'));
-            return $this->info('Success');
+            if($validator === true)
+            {
+                Mail::to($this->argument('email'))->queue((new SendProductInfoToUserByEmail($product->name, $product->description))->onQueue('emails'));
+                return $this->info('Success');
+            }
         }else{
             return $this->info('Product does not exist');
         }
