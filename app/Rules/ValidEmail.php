@@ -12,21 +12,6 @@ use Illuminate\Support\Facades\Validator;
 class ValidEmail implements Rule
 {
     /**
-     * @var array
-     */
-    public array $argument;
-
-    /**
-     * ValidEmail constructor.
-     * @param $argument
-     */
-    public function __construct($argument)
-    {
-       $this->argument = $argument;
-    }
-
-
-    /**
      * Determine if the validation rule passes.
      *
      * @param  string  $attribute
