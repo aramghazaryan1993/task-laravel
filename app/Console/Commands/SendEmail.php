@@ -36,21 +36,25 @@ class SendEmail extends Command
         ];
 
         $rules = [
-            'emails.*' => ['required','email', new ValidEmail($this->argument('email')) ]
+            'emails' => new ValidEmail($this->argument('email'))
         ];
 
-        $validator = Validator::make($argument, $rules)->passes($argument,$rules);
+        $validator = Validator::make($argument, $rules);
 
-        $product = Product::all()->first();
+        $product   = Product::all()->first();
 
-        if(!is_null($product)){
-            if($validator === true)
-            {
+        if($validator->passes())
+        {
+            if(!is_null($product)){
                 Mail::to($this->argument('email'))->queue((new SendProductInfoToUserByEmail($product->name, $product->description))->onQueue('emails'));
                 return $this->info('Success');
+            }else{
+                return $this->info('Product does not exist');
             }
         }else{
-            return $this->info('Product does not exist');
+            foreach ($validator->errors()->all() as $error) {
+                $this->error($error);
+            }
         }
     }
 }
