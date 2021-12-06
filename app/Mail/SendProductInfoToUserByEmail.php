@@ -11,7 +11,7 @@ use Illuminate\Queue\SerializesModels;
  * Class SendEmail
  * @package App\Mail
  */
-class SendEmail extends Mailable
+class SendProductInfoToUserByEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
