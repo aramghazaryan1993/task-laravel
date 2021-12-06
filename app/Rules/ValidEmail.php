@@ -44,6 +44,6 @@ class ValidEmail implements Rule
      */
     public function message()
     {
-        return 'Error Email';
+        return 'Your inserted data was inncorect';
     }
 }
