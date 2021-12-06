@@ -36,7 +36,7 @@ class SendEmail extends Command
         ];
 
         $rules = [
-            'emails' => new ValidEmail()
+            'emails' => [ new ValidEmail()]
         ];
 
         $validator = Validator::make($argument, $rules);
