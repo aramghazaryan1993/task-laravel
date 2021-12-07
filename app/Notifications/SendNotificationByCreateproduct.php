@@ -6,19 +6,35 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Support\Facades\Storage;
 
+/**
+ * Class SendNotificationByCreateproduct
+ * @package App\Notifications
+ * @param  string $productName
+ * @param  string $productDescription
+ * @param  string $productImage
+ */
 class SendNotificationByCreateproduct extends Notification
 {
     use Queueable;
 
+    private string $productName;
+    private string $productDescription;
+    private string $productImage;
+
     /**
-     * Create a new notification instance.
-     *
-     * @return void
+     * SendNotificationByCreateproduct constructor.
+     * @param $productName
+     * @param $productDescription
+     * @param $productImage
      */
-    public function __construct()
+    public function __construct($productName,$productDescription,$productImage)
     {
 
+        $this->productName = $productName;
+        $this->productDescription = $productDescription;
+        $this->productImage = $productImage;
     }
 
     /**
@@ -41,9 +57,14 @@ class SendNotificationByCreateproduct extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
+            ->view(
+                'email.send-email-notification', [
+                    'name' => $this->productName,
+                    'description' => $this->productDescription,
+                    'image' => Storage::url($this->productImage)
+                ]
+            );
+
     }
 
     /**
