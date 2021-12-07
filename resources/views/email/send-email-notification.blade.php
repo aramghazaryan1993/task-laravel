@@ -4,4 +4,4 @@
 <h2>Name: <span>{{$name}}</span></h2>
 <h2>description: <span>{{$description}}</span></h2>
 
-<h2>Image: </h2> <img src="http://task-laravel.loc/{{$image}}" alt="">
+<h2>Image url:  <span>{{$image}}</span> </h2>
