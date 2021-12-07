@@ -46,11 +46,10 @@ class ProductController extends  BaseController
      */
     public function add(ProductRequest $request)
     {
-        $user = User::all()->first();
-        $dataProduct = $this->productRepository->add($request->name, $request->description, $request->tag_id, $request->image);
-        $user->notify(new SendNotificationByCreateproduct($dataProduct->name, $dataProduct->description, $dataProduct->image));
-
-                return $this->response(new ProductResource($dataProduct))->setStatusCode(Response::HTTP_CREATED);
+        $user =  Auth::user();
+        $Product = $this->productRepository->add($request->name, $request->description, $request->tag_id, $request->image);
+        $user->notify(new SendNotificationByCreateproduct($Product->name, $Product->description, $Product->image));
+                return $this->response(new ProductResource($Product))->setStatusCode(Response::HTTP_CREATED);
     }
 
 
