@@ -25,11 +25,11 @@ class SendNotificationByCreateproduct extends Notification
 
     /**
      * SendNotificationByCreateproduct constructor.
-     * @param $productName
-     * @param $productDescription
-     * @param $productImage
+     * @param string $productName
+     * @param string $productDescription
+     * @param string $productImage
      */
-    public function __construct($productName,$productDescription,$productImage)
+    public function __construct(string $productName,string $productDescription,string $productImage)
     {
 
         $this->productName = $productName;
@@ -61,9 +61,9 @@ class SendNotificationByCreateproduct extends Notification
                 'email.send-email-notification', [
                     'name' => $this->productName,
                     'description' => $this->productDescription,
-                    'image' => Storage::url($this->productImage)
+                    'image' => url(Storage::url($this->productImage))
                 ]
-            );
+            )->attach(url(Storage::url($this->productImage)));
 
     }
 
