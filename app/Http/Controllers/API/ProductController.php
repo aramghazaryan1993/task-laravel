@@ -14,17 +14,16 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
 
+/**
+ * Class ProductController
+ * @package App\Http\Controllers\API
+ * @param ProductRequest $request
+ * @param int $id
+ * @param int $tagId
+ * @param int $productId
+ */
 class ProductController extends  BaseController
 {
-    /**
-     * Class ProductController
-     * @package App\Http\Controllers\API
-     * @param ProductRequest $request
-     * @param int $id
-     * @param int $tagId
-     * @param int $productId
-     */
-
     /**
      * @var ProductRepository
      */
