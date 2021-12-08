@@ -60,10 +60,9 @@ class SendNotificationByCoproduct extends Notification
                 'email.send-email-notification', [
                     'name'        => $this->productName,
                     'description' => $this->productDescription,
-                    'image'       => url(Storage::url($this->productImage))
+                    'image'       => Storage::url($this->productImage)
                 ]
-            )->attach(url(Storage::url($this->productImage)));
-
+            )->attach(Storage::url($this->productImage));
     }
 
     /**
