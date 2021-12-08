@@ -1,5 +1,5 @@
 
-<h1>Product</h1>
+<h1>Product <span>{{$status}}</span></h1>
 
 <h2>Name: <span>{{$name}}</span></h2>
 
