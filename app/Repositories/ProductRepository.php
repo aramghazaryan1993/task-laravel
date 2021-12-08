@@ -5,20 +5,19 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
 
+/**
+ * Class ProductRepository
+ * @package App\Repositories
+ * @param string $name
+ * @param string $description
+ * @param int $tagId
+ * @param string $img
+ * @param int $productId
+ * @param int $id
+ * @return Product
+ */
 class ProductRepository
 {
-    /**
-     * Class ProductRepository
-     * @package App\Repositories
-     * @param string $name
-     * @param string $description
-     * @param int $tagId
-     * @param string $img
-     * @param int $productId
-     * @param int $id
-     * @return Product
-     */
-
     /**
      * @param string $name
      * @param string $description
@@ -30,9 +29,7 @@ class ProductRepository
     {
         $image = time().'_'.$img->getClientOriginalName();
         Storage::disk('public')->put($image, file_get_contents($img->getRealPath()));
-
         $product = Product::create(['name'=>$name,'description'=>$description,'image'=>$image,'user_id'=>Auth::user()->id]);
-
          $product->tag()->sync($tagId);
              return $product;
     }
@@ -48,7 +45,6 @@ class ProductRepository
     public function update(string $name, string $description,  array $tagId, $img, int $id): Product
     {
         $editProduct = Product::where('user_id', Auth::id())->where('id', $id)->first();
-
         $image = time().'_'.$img->getClientOriginalName();
         Storage::disk('public')->put($image, file_get_contents($img->getRealPath()));
 
@@ -60,9 +56,7 @@ class ProductRepository
         $editProduct->description = $description;
         $editProduct->image = $image;
         $editProduct->save();
-
         $editProduct->tag()->sync($tagId);
-
             return $editProduct;
     }
 
@@ -73,9 +67,8 @@ class ProductRepository
      */
     public function deleteTag(int $tagId, int $productId)
     {
-     $deleteTag = Product::find($productId);
-
-        return $deleteTag->tag()->detach($tagId);
+        $deleteTag = Product::find($productId);
+           return $deleteTag->tag()->detach($tagId);
     }
 
     /**
