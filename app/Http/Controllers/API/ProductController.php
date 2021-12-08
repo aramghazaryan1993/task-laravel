@@ -46,10 +46,10 @@ class ProductController extends  BaseController
      */
     public function add(ProductRequest $request)
     {
-        $user =  Auth::user();
-        $Product = $this->productRepository->add($request->name, $request->description, $request->tag_id, $request->image);
-        $user->notify(new SendNotificationByCoproduct($Product->name, $Product->description, $Product->image));
-                return $this->response(new ProductResource($Product))->setStatusCode(Response::HTTP_CREATED);
+        $user    =  Auth::user();
+        $product = $this->productRepository->add($request->name, $request->description, $request->tag_id, $request->image);
+        $user->notify(new SendNotificationByCoproduct($product->name, $product->description, $product->image));
+                return $this->response(new ProductResource($product))->setStatusCode(Response::HTTP_CREATED);
     }
 
 
