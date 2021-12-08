@@ -8,7 +8,7 @@ use App\Http\Resources\Product as ProductResource;
 use App\Http\Resources\Massage as MassageResource;
 use App\Http\Resources\Tag as TagResource;
 use App\Models\User as UserAlias;
-use App\Notifications\SendNotificationByCreateproduct;
+use App\Notifications\SendNotificationByCoproduct;
 use App\Repositories\ProductRepository;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -48,7 +48,7 @@ class ProductController extends  BaseController
     {
         $user =  Auth::user();
         $Product = $this->productRepository->add($request->name, $request->description, $request->tag_id, $request->image);
-        $user->notify(new SendNotificationByCreateproduct($Product->name, $Product->description, $Product->image));
+        $user->notify(new SendNotificationByCoproduct($Product->name, $Product->description, $Product->image));
                 return $this->response(new ProductResource($Product))->setStatusCode(Response::HTTP_CREATED);
     }
 
