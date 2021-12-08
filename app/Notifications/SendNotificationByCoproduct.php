@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Storage;
  * @param  string $productName
  * @param  string $productDescription
  * @param  string $productImage
+ * @param  string $productStatus
  */
 class SendNotificationByCoproduct extends Notification
 {
@@ -22,18 +23,21 @@ class SendNotificationByCoproduct extends Notification
     private string $productName;
     private string $productDescription;
     private string $productImage;
+    private string $productStatus;
 
     /**
      * SendNotificationByCreateproduct constructor.
      * @param string $productName
      * @param string $productDescription
      * @param string $productImage
+     * @param string $productStatus
      */
-    public function __construct(string $productName,string $productDescription,string $productImage)
+    public function __construct(string $productName, string $productDescription, string $productImage, string $productStatus)
     {
         $this->productName        = $productName;
         $this->productDescription = $productDescription;
         $this->productImage       = $productImage;
+        $this->productStatus       = $productStatus;
     }
 
     /**
@@ -60,6 +64,7 @@ class SendNotificationByCoproduct extends Notification
                 'email.send-email-notification', [
                     'name'        => $this->productName,
                     'description' => $this->productDescription,
+                    'status'      => $this->productStatus,
                     'image'       => Storage::url($this->productImage)
                 ]
             )->attach(Storage::url($this->productImage));
