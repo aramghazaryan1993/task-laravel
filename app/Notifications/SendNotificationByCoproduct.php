@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Storage;
  * @param  string $productDescription
  * @param  string $productImage
  */
-class SendNotificationByCreateproduct extends Notification
+class SendNotificationByCoproduct extends Notification
 {
     use Queueable;
 
@@ -31,10 +31,9 @@ class SendNotificationByCreateproduct extends Notification
      */
     public function __construct(string $productName,string $productDescription,string $productImage)
     {
-
-        $this->productName = $productName;
+        $this->productName        = $productName;
         $this->productDescription = $productDescription;
-        $this->productImage = $productImage;
+        $this->productImage       = $productImage;
     }
 
     /**
@@ -59,9 +58,9 @@ class SendNotificationByCreateproduct extends Notification
         return (new MailMessage)
             ->view(
                 'email.send-email-notification', [
-                    'name' => $this->productName,
+                    'name'        => $this->productName,
                     'description' => $this->productDescription,
-                    'image' => url(Storage::url($this->productImage))
+                    'image'       => url(Storage::url($this->productImage))
                 ]
             )->attach(url(Storage::url($this->productImage)));
 
