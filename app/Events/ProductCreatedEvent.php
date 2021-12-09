@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Product;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -11,11 +12,11 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
 /**
- * Class CreatedEventByCoproduct
+ * Class ProductCreatedEvent
  * @package App\Events
  * @param object $product
  */
-class CreatedEventByCoproduct
+class ProductCreatedEvent
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -27,22 +28,11 @@ class CreatedEventByCoproduct
 
     /**
      * Create a new event instance.
-     * CreatedEventByCoproduct constructor.
-     * @param  object $product
-     * @return void
+     * ProductCreatedEvent constructor.
+     * @param Product $product
      */
-    public function __construct(object $product)
+    public function __construct(Product $product)
     {
         $this->product = $product;
-    }
-
-    /**
-     * Get the channels the event should broadcast on.
-     *
-     * @return \Illuminate\Broadcasting\Channel|array
-     */
-    public function broadcastOn()
-    {
-        return new PrivateChannel('channel-name');
     }
 }
