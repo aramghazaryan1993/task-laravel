@@ -7,8 +7,8 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
-use App\Events\CreatedEventByCoproduct;
-use App\Events\UpdatedEventByCoproduct;
+use App\Events\ProductCreatedEvent;
+use App\Events\ProductUpdatedEvent;
 
 /**
  * Class Product
@@ -30,8 +30,8 @@ class Product extends Model
 
 
     protected $dispatchesEvents = [
-        "created" => CreatedEventByCoproduct::class,
-        "updated" => UpdatedEventByCoproduct::class,
+        "created" => ProductCreatedEvent::class,
+        "updated" => ProductUpdatedEvent::class,
     ];
 
 
