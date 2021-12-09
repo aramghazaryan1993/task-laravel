@@ -8,7 +8,11 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Auth;
 
-class CreatedEventListenerByCoproduct
+/**
+ * Class ProductCreatedEventListener
+ * @package App\Listeners
+ */
+class ProductCreatedEventListener
 {
     /**
      * Handle the event.
