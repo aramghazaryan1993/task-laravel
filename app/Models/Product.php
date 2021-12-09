@@ -1,11 +1,14 @@
 <?php
 
 namespace App\Models;
+
 use App\Notifications\SendNotificationByCoproduct;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Support\Facades\Auth;
+use App\Events\CreatedEventByCoproduct;
+use App\Events\UpdatedEventByCoproduct;
 
 /**
  * Class Product
@@ -25,29 +28,12 @@ class Product extends Model
      */
     protected $table = 'products';
 
-    /**
-     * @return response()
-     */
-    public static function boot()
-    {
-        parent::boot();
 
-        /**
-         * @return SendNotificationByCoproduct()
-         */
-        static::created(function($item) {
-            $user = Auth::user();
-            $user->notify(new SendNotificationByCoproduct($item->name, $item->description, $item->image,'created'));
-        });
+    protected $dispatchesEvents = [
+        "created" => CreatedEventByCoproduct::class,
+        "updated" => UpdatedEventByCoproduct::class,
+    ];
 
-        /**
-         * @return SendNotificationByCoproduct()
-         */
-        static::updated(function($item) {
-            $user = Auth::user();
-            $user->notify(new SendNotificationByCoproduct($item->name, $item->description, $item->image,'updated'));
-        });
-    }
 
     /**
      * @return BelongsToMany
