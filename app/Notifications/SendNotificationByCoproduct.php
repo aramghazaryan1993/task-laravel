@@ -67,7 +67,7 @@ class SendNotificationByCoproduct extends Notification
                     'status'      => $this->productStatus,
                     'image'       => Storage::url($this->productImage)
                 ]
-            )->attach(Storage::url($this->productImage));
+            )->attach(Storage::path($this->productImage));
     }
 
     /**
