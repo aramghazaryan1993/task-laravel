@@ -26,8 +26,8 @@ services:
             - "MYSQL_PASSWORD=root"
         ports:
             - "3306:3306"
-        volumes:
-            - ./docker/mysql:/docker-entrypoint-initdb.d
+#        volumes:
+#            - ./docker/mysql:/docker-entrypoint-initdb.d
         networks:
             - task_laravel_networks
 
