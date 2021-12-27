@@ -6,7 +6,7 @@ services:
                 user: sammy
                 uid: 1000
             context: ./
-            dockerfile: Dockerfile
+            dockerfile: docker/Dockerfile
         image: task-laravel
         container_name: task-laravel-app
         restart: unless-stopped
@@ -26,8 +26,8 @@ services:
             - "MYSQL_PASSWORD=root"
         ports:
             - "3306:3306"
-        volumes:
-            - ./docker-compose/mysql:/docker-entrypoint-initdb.d
+#        volumes:
+#            - ./docker/mysql:/docker-entrypoint-initdb.d
         networks:
             - task_laravel_networks
 
@@ -39,7 +39,7 @@ services:
             - 8000:80
         volumes:
             - ./:/var/www
-            - ./docker-compose/nginx/conf.d:/etc/nginx/conf.d/
+            - ./docker/nginx/conf.d:/etc/nginx/conf.d/
         networks:
             - task_laravel_networks
 
